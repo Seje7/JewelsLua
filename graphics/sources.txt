@@ -1,0 +1,20 @@
+Gems and Coins Sprites
+https://laredgames.itch.io/gems-coins-free
+
+Spritesheet created by merging the sprite files using https://imageonline.co/merge-png.php 
+
+Background image
+https://szadiart.itch.io/bakcground-hill?download
+
+Borders
+sprites https://bdragon1727.itch.io/border-and-panels-menu-part-1 
+border1 https://www.freeiconspng.com/img/22954
+border2 https://www.freeiconspng.com/img/39743
+border3 https://www.vecteezy.com/png/10916979-spring-branches-with-leaves-on-border-with-copy-space-green-and-yellow-leaves-frame-on-white-background-vector-illustration-panorama-landscape-summer-leaves-frame
+border4 https://www.freeiconspng.com/img/22951
+
+Transparency Editor for the Border
+https://onlinepngtools.com/create-transparent-png
+
+Particles
+https://jellyfish0.itch.io/textures-for-particles 
