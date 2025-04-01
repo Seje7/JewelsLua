@@ -16,6 +16,7 @@ function Board:init(x,y, stats)
     self.x = x
     self.y = y
     self.stats = stats
+    self.combo = 0
     self.cursor = Cursor(self.x,self.y,Board.TILESIZE+1)
 
     self.tiles = Matrix:new(Board.MAXROWS,Board.MAXCOLS)
@@ -130,6 +131,10 @@ function Board:draw()
         end -- end for j
     end -- end for i
 
+    if self.combo > 0 then
+        love.graphics.print("Combo X" .. self.combo, self.x - 100, self.y - 20) -- add combo text
+    end
+
     self.cursor:draw()
 
     for k=1, #self.explosions do
@@ -158,6 +163,7 @@ function Board:mousepressed(x,y)
             self.cursor:clear()
         elseif self:isAdjacentToCursor(mouseRow,mouseCol) then
             -- adjacent click, swap gems
+            self.combo = 0 -- reset combo on click
             self:tweenStartSwap(mouseRow,mouseCol,self.cursor.row,self.cursor.col)
         else -- sets cursor to clicked place
             self.cursor:setCoords(self.x+(mouseCol-1)*Board.TILESIZE,
@@ -269,6 +275,11 @@ function Board:matches()
             Sounds["breakGems"]:stop()
         end
         Sounds["breakGems"]:play()
+
+        if #self.arrayFallTweens == 0 then -- check for chain reaction
+            self.combo = self.combo + 1 
+            score = score * (self.combo * 0.5) -- score multiplier
+        end
 
         self.stats:addScore(score)
 
