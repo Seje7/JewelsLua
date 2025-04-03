@@ -279,6 +279,7 @@ function Board:matches()
             for j = 0, match.size - 1 do
                 if self.tiles[match.row][match.col + j] and self.tiles[match.row][match.col + j].type <= 3 then
                  score = score + (2 ^ match.size * 2) * (stats.level - 1) -- for Bonus scoring
+                 Sounds["coin"]:play()  -- coin sound 
                 end
 
                 self:ColorForExplosion(match.row,match.col + j)
@@ -294,11 +295,15 @@ function Board:matches()
             for i = 0, match.size - 1 do
                 if self.tiles[match.row + i] and self.tiles[match.row + i][match.col] and self.tiles[match.row + i][match.col].type <= 3 then
                 score = score + (2 ^ match.size * 2) * (stats.level - 1) -- for Bonus score
+                Sounds["coin"]:play() -- coin sound 
                end
 
                self:ColorForExplosion(match.row + i,match.col)
 
+               if self.tiles[match.row + i] and self.tiles[match.row + i][match.col] then -- checks if the jewel still exists
                 self.tiles[match.row + i][match.col] = nil
+               end 
+
                 self:createExplosion(match.row + i, match.col)
             end -- end for i
         end     -- end for each verMatch
@@ -377,24 +382,24 @@ function Board:Timer()
 end
 
 function Board:ColorForExplosion(x,y)
-    if self.tiles[x] and self.tiles[y] and self.tiles[x][y] then 
-        if self.tiles[x][y].type ==  8 then 
+    if self.tiles[x] and self.tiles[y] and self.tiles[x][y] then  
+        if self.tiles[x][y].type ==  8 then  -- for green
             r = 0  
             g = 1  
             b = 0
-        elseif self.tiles[x][y].type == 7 then 
+        elseif self.tiles[x][y].type == 7 then  -- for red
             r = 1  
             g = 0  
             b = 0
-        elseif self.tiles[x][y].type == 6 then
+        elseif self.tiles[x][y].type == 6 then -- for grey
             r = 1  
             g = 1 
             b = 1
-        elseif self.tiles[x][y].type == 5 then
+        elseif self.tiles[x][y].type == 5 then -- for blue
             r = 0  
             g = 0 
             b = 1   
-        elseif self.tiles[x][y].type == 4 then
+        elseif self.tiles[x][y].type == 4 then -- for yellow
             r = 1  
             g = 1 
             b = 0 
