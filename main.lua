@@ -1,3 +1,5 @@
+-- -- Authors: OSELUINOSEN EHI-DOUGLAS and AYOPOSI OLU-BAMISAYE 
+
 local Globals = require "src.Globals"
 local Push = require "libs.push"
 local Background = require "src.game.Background"
@@ -27,7 +29,7 @@ function love.load()
     stats = Stats()
     board = Board(140, 80, stats)
     border = Border(110, 50, 380, 380)
-    testexp = Explosion()
+    testexp = Explosion(stats)
 
     Sounds["playStateMusic"]:setLooping(true)
     Sounds["playStateMusic"]:play()
@@ -149,3 +151,4 @@ function drawGameOverState()
     love.graphics.printf("FINAL SCORE: " .. value,
         0, 120, gameWidth, "center")
 end
+-- * git this 

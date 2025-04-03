@@ -1,8 +1,9 @@
 local Class = require "libs.hump.class"
+local Gem = require "src.game.Gem"
 local imgParticle = love.graphics.newImage("graphics/particles/20.png")
 local Explosion = Class{}
 
-function Explosion:init()
+function Explosion:init(stats)
     self.particleSystem = love.graphics.newParticleSystem(imgParticle,100) 
                                                       -- image, #particles
     self.particleSystem:setParticleLifetime(0.2, 1.0) -- 0.2 to 1.0 secs
@@ -13,17 +14,23 @@ function Explosion:init()
     self.particleSystem:setEmissionArea("uniform",20,20,0,true)
     self.particleSystem:setColors(1, 1, 1, 1, 0, 0, 0, 0) 
     -- White fading to transparent(r, g, b, a, r, g, b, a)    
+    self.gems = Gem
+
 end
 
-function Explosion:setColor(r,g,b) -- sets the particle color
+function Explosion:setColor(r,g,b,x,y) -- sets the particle color
     self.particleSystem:setColors(r,g,b,1,r,g,b,0)
 end
 
-function Explosion:trigger(x,y)
+function Explosion:trigger(r,g,b,x,y)
     if x and y then -- if x & y not nil, set then now
         self.particleSystem:setPosition(x, y)
+        
+        self:setColor(r,g,b,x,y)
     end
-    self.particleSystem:emit(30) -- Emit 30 particles
+
+   
+   self.particleSystem:emit(30) -- Emit 30 particles
 end
 
 function Explosion:update(dt)
