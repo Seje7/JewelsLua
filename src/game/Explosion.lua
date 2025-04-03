@@ -26,7 +26,7 @@ function Explosion:trigger(r,g,b,x,y)
     if x and y then -- if x & y not nil, set then now
         self.particleSystem:setPosition(x, y)
         
-        self:setColor(r,g,b,x,y)
+        self:setColor(r,g,b,x,y) -- changes color just before it emits 
     end
 
    

@@ -211,12 +211,15 @@ function Board:findHorizontalMatches()
     for i = 1, Board.MAXROWS do
         local same = 1
         for j = 2, Board.MAXCOLS do
-            if self.tiles[i][j].type == self.tiles[i][j - 1].type or ((j - 2) > 0 and self.tiles[i][j].type <= 3 and self.tiles[i][j - 1].type == self.tiles[i][j - 2].type) then
+            if self.tiles[i][j].type == self.tiles[i][j - 1].type or ((j - 2) > 0 and self.tiles[i][j].type <= 3 and self.tiles[i][j - 1].type == self.tiles[i][j - 2].type) then 
+                -- the part after the or checks if the coin is the last on the column 
                 same = same + 1
 
-                if ((j - 2) > 0 and self.tiles[i][j - 2].type <= 3) then
+                if ((j - 2) > 0 and self.tiles[i][j - 2].type <= 3) then -- if the coin is the first on the column 
                     same = same + 1
                 end
+
+              --  this condition checks if a coin is between two jewels of the same type 
             elseif (j - 2) > 0 and self.tiles[i][j - 2].type == self.tiles[i][j].type and self.tiles[i][j - 1].type <= 3 then
                 same = same + 2
             elseif same > 2 then -- match-3+
@@ -243,11 +246,13 @@ function Board:findVerticalMatches()
         local same = 1
         for i = 2, Board.MAXROWS do
             if self.tiles[i][j].type == self.tiles[i-1][j].type or ((i - 2) > 0 and self.tiles[i][j].type <= 3 and self.tiles[i-1][j].type == self.tiles[i-2][j].type) then
+                -- the part after the or checks if the coin is the last on the row
                 same = same + 1
                 if ((i - 2) > 0 and self.tiles[i-2][j].type <= 3) then
                     same = same + 1
                 end
 
+                 --  this condition checks if a coin is between two jewels of the same type 
             elseif (i - 2) > 0 and self.tiles[i-2][j].type == self.tiles[i][j].type and self.tiles[i-1][j].type <= 3 then
                 same = same + 2
 
@@ -277,12 +282,12 @@ function Board:matches()
         for k, match in pairs(horMatches) do
             score = score + 2 ^ match.size * 10
             for j = 0, match.size - 1 do
-                if self.tiles[match.row][match.col + j] and self.tiles[match.row][match.col + j].type <= 3 then
+                if self.tiles[match.row][match.col + j] and self.tiles[match.row][match.col + j].type <= 3 then -- checks if a coin is part of the match for bonus score 
                  score = score + (2 ^ match.size * 2) * (stats.level - 1) -- for Bonus scoring
                  Sounds["coin"]:play()  -- coin sound 
                 end
 
-                self:ColorForExplosion(match.row,match.col + j)
+                self:ColorForExplosion(match.row,match.col + j) -- changes color of particles
                 
                 self.tiles[match.row][match.col + j] = nil
                 self:createExplosion(match.row, match.col + j)
@@ -293,15 +298,15 @@ function Board:matches()
         for k, match in pairs(verMatches) do
             score = score + 2 ^ match.size * 10
             for i = 0, match.size - 1 do
-                if self.tiles[match.row + i] and self.tiles[match.row + i][match.col] and self.tiles[match.row + i][match.col].type <= 3 then
+                if self.tiles[match.row + i] and self.tiles[match.row + i][match.col] and self.tiles[match.row + i][match.col].type <= 3 then -- checks if a coin is part of the match for bonus score 
                 score = score + (2 ^ match.size * 2) * (stats.level - 1) -- for Bonus score
                 Sounds["coin"]:play() -- coin sound 
                end
 
-               self:ColorForExplosion(match.row + i,match.col)
+               self:ColorForExplosion(match.row + i,match.col) -- changes color of particles
 
                if self.tiles[match.row + i] and self.tiles[match.row + i][match.col] then -- checks if the jewel still exists
-                self.tiles[match.row + i][match.col] = nil
+                self.tiles[match.row + i][match.col] = nil -- sets it to null
                end 
 
                 self:createExplosion(match.row + i, match.col)
